@@ -4095,68 +4095,70 @@ awk -v OFS='\t' '{$1=$1}1' ${Secretomep}.out > ${Secretomep}.tsv
 join -t $'\t' -a 1 -e 0 -o 0,2.2,2.3,2.4,2.5,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84,1.85 <(sort ${OutDir}/${ID}_annotations.tsv) <(sort ${Secretomep}.tsv) > ${OutDir}/${ID}_annotations3.tsv
 done
 
-
-for proteome in $(ls */*/gene_pred/braker/final/final_genes_renamed.pep.fasta); do 
- ID=$( echo $proteome | cut -d '/' -f2 | sed 's@HEAVEN_apple@Podosphaeraleucotricha_HEAVEN_apple@g'| sed 's@HEAVEN_strawberry@Podosphaeraaphanis_HEAVEN_strawberry@g'| sed 's@HEAVEN_raspberry@Podosphaeraaphanis_HEAVEN_raspberry@g'| sed 's@GANAN_apple@Podosphaeraleucotricha_Ganan_apple@g'|sed 's@Erysiphealphitoides_CLCBIO_assembly_cdhitest_0@Erysiphealphitoides_CLCBIO_assembly@g'|sed 's@Oidiodendron_maius@Oidiodendronmaius@g'|sed 's@phialocephalasubalpina-GCA_900073065@phialocephalasubalpina_GCA_900073065@g')
- Annotations=$(ls */$ID/gene_pred/predector/Prothint/results/*genes_renamed.pep/*ranked.tsv)
- echo $Annotations
- blast=$(dirname $proteome)
- OutDir=$(echo */$ID/gene_pred/predector/Prothint)
- echo $OutDir
- cat ${blast}/inblast.tsv | cut -f1 |sort | uniq > ${blast}/ingenes.tsv
- cat ${blast}/outblast.tsv | cut -f1 |sort | uniq > ${blast}/outgenes.tsv
- for f in ${blast}/ingenes.tsv; do sed -i "s/$/\t1/" $f; done
- for f in ${blast}/outgenes.tsv; do sed -i "s/$/\t1/" $f; done
- printf 'name\tmildew orthology match' >> ${blast}/ingenes.tsv
- printf 'name\toutgroup orthology match' >> ${blast}/outgenes.tsv
- join -t $'\t' -a 1 -e 0 -o 0,2.2,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84 <(sort $Annotations) <(sort ${blast}/outgenes.tsv) > ${OutDir}/${ID}_annotations.tsv
- join -t $'\t' -a 1 -e 0 -o 0,2.2,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84,1.85 <(sort ${OutDir}/${ID}_annotations.tsv) <(sort ${blast}/ingenes.tsv) > ${OutDir}/${ID}_annotations2.tsv
- Secretomep=$(dirname $proteome)/$(echo $proteome | cut -d '/' -f2 | cut -d '.' -f1)_genes_40_secretomep
-#cut -f1 $Annotations | grep -v 'name'> fakesecretome.out
-# for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#  for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#   for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#    for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#    Secretomep=fakesecretome
- ls ${Secretomep}.out
- printf 'name\tNN-score\tOdds\tWeighted\tWarning' >> ${Secretomep}.out
- awk -v OFS='\t' '{$1=$1}1' ${Secretomep}.out > ${Secretomep}.tsv
- join -t $'\t' -a 1 -e 0 -o 0,2.2,2.3,2.4,2.5,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84,1.85,1.86 <(sort ${OutDir}/${ID}_annotations2.tsv) <(sort ${Secretomep}.tsv) > ${OutDir}/${ID}_annotations3.tsv
-done
-#file1_file1 genes are predictions from Prothint
-
-for proteome in $(ls */*/gene_pred/braker/final/ab_initio_final_genes_renamed.pep.fasta); do 
- ID=$( echo $proteome | cut -d '/' -f2 | sed 's@HEAVEN_apple@Podosphaeraleucotricha_HEAVEN_apple@g'| sed 's@HEAVEN_strawberry@Podosphaeraaphanis_HEAVEN_strawberry@g'| sed 's@HEAVEN_raspberry@Podosphaeraaphanis_HEAVEN_raspberry@g'| sed 's@GANAN_apple@Podosphaeraleucotricha_Ganan_apple@g'|sed 's@Erysiphealphitoides_CLCBIO_assembly_cdhitest_0@Erysiphealphitoides_CLCBIO_assembly@g'|sed 's@Oidiodendron_maius@Oidiodendronmaius@g'|sed 's@phialocephalasubalpina-GCA_900073065@phialocephalasubalpina_GCA_900073065@g')
- Annotations=$(ls */$ID/gene_pred/predector/abinitio*/results/*genes_renamed.pep/*ranked.tsv)
- echo $Annotations
- blast=$(dirname $proteome)
- OutDir=$(echo */$ID/gene_pred/predector/abinitio)
- echo $OutDir
- cat ${blast}/abinitio_inblast.tsv | cut -f1 |sort | uniq > ${blast}/abinitio_ingenes.tsv
- cat ${blast}/abinitio_outblast.tsv | cut -f1 |sort | uniq > ${blast}/abinitio_outgenes.tsv
- for f in ${blast}/abinitio_ingenes.tsv; do sed -i "s/$/\t1/" $f; done
- for f in ${blast}/abinitio_outgenes.tsv; do sed -i "s/$/\t1/" $f; done
- printf 'name\tmildew orthology match' >> ${blast}/abinitio_ingenes.tsv
- printf 'name\toutgroup orthology match' >> ${blast}/abinitio_outgenes.tsv
- join -t $'\t' -a 1 -e 0 -o 0,2.2,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84 <(sort $Annotations) <(sort ${blast}/abinitio_outgenes.tsv) > ${OutDir}/${ID}_abinitio_annotations.tsv
- join -t $'\t' -a 1 -e 0 -o 0,2.2,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84,1.85 <(sort ${OutDir}/${ID}_abinitio_annotations.tsv) <(sort ${blast}/abinitio_ingenes.tsv) > ${OutDir}/${ID}_abinitio_annotations2.tsv
- Secretomep=$(dirname $proteome)/$(echo $proteome | cut -d '/' -f2 | cut -d '.' -f1)abinitio_genes_40_secretomep
-#cut -f1 $Annotations | grep -v 'name'> fakesecretome.out
-# for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#  for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#   for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#    for f in fakesecretome.out; do sed -i "s/$/\t0/" $f; done
-#    Secretomep=fakesecretome
- ls ${Secretomep}.out
- printf 'name\tNN-score\tOdds\tWeighted\tWarning' >> ${Secretomep}.out
- awk -v OFS='\t' '{$1=$1}1' ${Secretomep}.out > ${Secretomep}.tsv
- join -t $'\t' -a 1 -e 0 -o 0,2.2,2.3,2.4,2.5,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84,1.85,1.86 <(sort ${OutDir}/${ID}_abinitio_annotations2.tsv) <(sort ${Secretomep}.tsv) > ${OutDir}/${ID}_abinitio_annotations3.tsv
+for Annotations in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/abinitio/results/clean_ab_initio_final_genes_renamed.pep/clean_ab_initio_final_genes_renamed.pep-ranked.tsv); do
+ID=$(echo $Annotations | cut -d '/' -f7 | cut -c 1-3)_$(echo $Annotations | cut -d '/' -f8 | cut -c 1-3)_$(echo $Annotations | cut -d '/' -f9)
+blast=$(echo $Annotations | cut -d '/' -f1,2,3,4,5,6,7,8,9,10,11,12,13)
+Secretomep=$(echo $Annotations | cut -d '/' -f1,2,3,4,5,6,7,8,9,10,11,12,13)/clean_ab_initio_final_genes_renamed_genes_40_secretomep
+OutDir=$(echo $Annotations | cut -d '/' -f1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+cat ${blast}/ab_initio_outblast.tsv | cut -f1 |sort | uniq > ${blast}/ab_initio_outgenes.tsv
+for f in ${blast}/ab_initio_outgenes.tsv; do sed -i "s/$/\t1/" $f; done
+printf 'name\toutgroup_orthology_match' >> ${blast}/ab_initio_outgenes.tsv
+ join -t $'\t' -a 1 -e 0 -o 0,2.2,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84 <(sort $Annotations) <(sort ${blast}/ab_initio_outgenes.tsv) > ${OutDir}/${ID}_ab_initio_annotations.tsv
+printf 'name\tNN-score\tOdds\tWeighted\tWarning' >> ${Secretomep}.out
+awk -v OFS='\t' '{$1=$1}1' ${Secretomep}.out > ${Secretomep}.tsv
+join -t $'\t' -a 1 -e 0 -o 0,2.2,2.3,2.4,2.5,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,1.15,1.16,1.17,1.18,1.19,1.20,1.21,1.22,1.23,1.24,1.25,1.26,1.27,1.28,1.29,1.30,1.31,1.32,1.33,1.34,1.35,1.36,1.37,1.38,1.39,1.40,1.41,1.42,1.43,1.44,1.45,1.46,1.47,1.48,1.49,1.50,1.51,1.52,1.53,1.54,1.55,1.56,1.57,1.58,1.59,1.60,1.61,1.62,1.63,1.64,1.65,1.66,1.67,1.68,1.69,1.70,1.71,1.72,1.73,1.74,1.75,1.76,1.77,1.78,1.79,1.80,1.81,1.82,1.83,1.84,1.85 <(sort ${OutDir}/${ID}_ab_initio_annotations.tsv) <(sort ${Secretomep}.tsv) > ${OutDir}/${ID}_ab_initio_annotations3.tsv
 done
 
+#Making report files
+ echo Species+Assembly Predicted_genes pfamID pfam_virulence PHIbase_effector effector_ortholog canonical_SP noncanonical_SP SSCP CSEP Secreted_effectorP3 Secreted_CAZY newSSCP newCSEP newSecreted_effectorP3 all csep_val phiboref > EffectorPredictionReport.txt
+for Annotations in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/Prothint/*annotations3.tsv); do
+ ID=$(echo $Annotations | cut -d '/' -f7 | cut -c 1-3)_$(echo $Annotations | cut -d '/' -f8 | cut -c 1-3)_$(echo $Annotations | cut -d '/' -f9)
+ Predictedgenes=$(cut -f1 $Annotations| grep -v 'name' | wc -l)
+ pfamID=$(awk '$17 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ pfamvirulence=$(awk '$19 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ PHIbaseeffector=$(awk '$14 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ effectorortholog=$(awk '$10 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ canonicalsp=$(awk '$30 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ noncanonical=$(awk '$30 != "1" && $5 != 'signal' && $2 > 0.6 {print $1}' $Annotations| grep -v 'name' | wc -l)
+ sscp=$(awk '$30 == "1" && $35 <= 300 && $38 > 3 {print $1}' $Annotations| grep -v 'name' | wc -l)
+ csep=$(awk '$30 == "1" && $6 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ secretedeffector=$(awk '$30 == "1" && $26 == "." && $6 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ secretedcazy=$(awk '$30 == "1" && $20 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newsscp=$(awk '$30 == "1" && $35 <= 300 && $38 > 3 && $10 == "." && $14 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newcsep=$(awk '$30 == "1" && $6 == "0" && $10 == "." && $14 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newsecretedeffector=$(awk '$30 == "1" && $26 == "." && $10 == "." && $14 != "1" && $6 == "0" {print $1}'  $Annotations| grep -v 'name' | wc -l)
+ all=$(awk '$14 == "1" || $10 != "." || ($30 == "1" && $26 == "." && $6 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ csep_val=$(awk '$10 != "." || ($30 == "1" && $26 == "." && $6 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ PHIbaseororthologeffector=$(awk '$14 == "1" || $10 != "." || ($30 == "1" && $26 == "." && $6 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ echo $ID $Predictedgenes $pfamID $pfamvirulence $PHIbaseeffector $effectorortholog $canonicalsp $noncanonical $sscp $csep $secretedeffector $secretedcazy $newsscp $newcsep $newsecretedeffector $PHIbaseororthologeffector >> EffectorPredictionReport.txt
+done
+
+echo Species+Assembly Predicted_genes pfamID pfam_virulence PHIbase_effector effector_ortholog canonical_SP noncanonical_SP SSCP CSEP Secreted_effectorP3 Secreted_CAZY newSSCP newCSEP newSecreted_effectorP3 csep_val all csep_val phiboref > AbinitioEffectorPredictionReport.txt
+for Annotations in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/abinitio/*annotations3.tsv); do
+ ID=$(echo $Annotations | cut -d '/' -f7 | cut -c 1-3)_$(echo $Annotations | cut -d '/' -f8 | cut -c 1-3)_$(echo $Annotations | cut -d '/' -f9)
+ Predictedgenes=$(cut -f1 $Annotations| grep -v 'name' | wc -l)
+ pfamID=$(awk '$17 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ pfamvirulence=$(awk '$19 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ PHIbaseeffector=$(awk '$14 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ effectorortholog=$(awk '$10 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ canonicalsp=$(awk '$30 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ noncanonical=$(awk '$30 != "1" && $5 != 'signal' && $2 > 0.6 {print $1}' $Annotations| grep -v 'name' | wc -l)
+ sscp=$(awk '$30 == "1" && $35 <= 300 && $38 > 3 {print $1}' $Annotations| grep -v 'name' | wc -l)
+ csep=$(awk '$30 == "1" && $6 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ secretedeffector=$(awk '$30 == "1" && $26 == "." && $6 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ secretedcazy=$(awk '$30 == "1" && $20 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newsscp=$(awk '$30 == "1" && $35 <= 300 && $38 > 3 && $10 == "." && $14 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newcsep=$(awk '$30 == "1" && $6 == "0" && $10 == "." && $14 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newsecretedeffector=$(awk '$30 == "1" && $26 == "." && $10 == "." && $14 != "1" && $6 == "0" {print $1}'  $Annotations| grep -v 'name' | wc -l)
+ all=$(awk '$14 == "1" || $10 != "." || ($30 == "1" && $26 == "." && $6 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ csep_val=$(awk '$10 != "." || ($30 == "1" && $26 == "." && $6 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ PHIbaseororthologeffector=$(awk '$14 == "1" || $10 != "." || ($30 == "1" && $26 == "." && $6 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ echo $ID $Predictedgenes $pfamID $pfamvirulence $PHIbaseeffector $effectorortholog $canonicalsp $noncanonical $sscp $csep $secretedeffector $secretedcazy $newsscp $newcsep $newsecretedeffector $csep_val $all >> AbinitioEffectorPredictionReport.txt
+done
 
 screen -S busco
 conda activate BUSCO
-for assembly in $(ls mildews/*a); do
+for assembly in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/*_clean.fasta); do
       Jobs=$(squeue -u theaven |grep 'busco'| wc -l)
     echo x
     while [ $Jobs -gt 5 ]; do
@@ -4164,8 +4166,8 @@ for assembly in $(ls mildews/*a); do
       printf "."
       Jobs=$(squeue -u theaven |grep 'busco'| wc -l)
     done
-  ID=$( echo $assembly | cut -d '/' -f2 | cut -d '_' -f1,2,3  | cut -d '.' -f1 | sed 's@HEAVEN_apple@Podosphaeraleucotricha_HEAVEN_apple@g'| sed 's@HEAVEN_strawberry@Podosphaeraaphanis_HEAVEN_strawberry@g'| sed 's@HEAVEN_raspberry@Podosphaeraaphanis_HEAVEN_raspberry@g'| sed 's@GANAN_apple@Podosphaeraleucotricha_Ganan_apple@g'|sed 's@Erysiphealphitoides_CLCBIO_assembly_cdhitest_0@Erysiphealphitoides_CLCBIO_assembly@g'|sed 's@Oidiodendron_maius@Oidiodendronmaius@g'|sed 's@phialocephalasubalpina-GCA_900073065@phialocephalasubalpina_GCA_900073065@g')
-  OutDir=$(ls -d */$ID*/gene_pred/predector/Prothint)/BUSCO
+  ID=$(echo $assembly | cut -d '/' -f7 | cut -c 1-3)_$(echo $assembly | cut -d '/' -f8 | cut -c 1-3)_$(echo $assembly | cut -d '/' -f9)
+  OutDir=$(dirname $assembly)/gene_pred/braker/final-02042924/predector/Prothint/results/BUSCO
   echo $OutDir
   ProgDir=~/scratch/apps/busco
   BuscoDB=ascomycota_odb10
@@ -4181,8 +4183,8 @@ for assembly in $(ls mildews/*a); do
 done
 
 
-for file in $(ls */*/gene_pred/predector/Prothint/BUSCO/ascomycota_odb10/*/short_summary*.txt); do
-ID=$(echo $file | cut -d '/' -f2 | sed 's@HEAVEN_apple@Podosphaeraleucotricha_HEAVEN_apple@g'| sed 's@HEAVEN_strawberry@Podosphaeraaphanis_HEAVEN_strawberry@g'| sed 's@HEAVEN_raspberry@Podosphaeraaphanis_HEAVEN_raspberry@g'| sed 's@GANAN_apple@Podosphaeraleucotricha_Ganan_apple@g'|sed 's@Erysiphealphitoides_CLCBIO_assembly_cdhitest_0@Erysiphealphitoides_CLCBIO_assembly@g'|sed 's@Oidiodendron_maius@Oidiodendronmaius@g'|sed 's@phialocephalasubalpina-GCA_900073065@phialocephalasubalpina_GCA_900073065@g')
+for file in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/Prothint/results/BUSCO/ascomycota_odb10/*/short_summary*.txt); do
+ID=$(echo $file | cut -d '/' -f7 | cut -c 1-3)_$(echo $file | cut -d '/' -f8 | cut -c 1-3)_$(echo $file | cut -d '/' -f9)
 percent=$(grep 'C:' $file)
 no1=$(grep 'Complete and single-copy BUSCOs (S)' $file | sed 's@Complete and single-copy BUSCOs (S)@@g')
 cent1=$(echo $percent|cut -d ':' -f2 | sed 's@\[S@@g')
@@ -4192,62 +4194,156 @@ no3=$(grep 'Missing BUSCOs (M)' $file| sed 's@Missing BUSCOs (M)@@g')
 cent3=$(echo $percent|cut -d ':' -f6 | sed 's@,n@@g')
 echo $ID $no1 $cent1 $no2 $cent2 $no3 $cent3 >> BUSCOreportallmildews.txt
 done
-
-#2463015-2463068,2488280-2488332, 2569873-77, 3057081-101
 conda deactivate
 exit
 echo finished
-
-#Making report files
- echo Species+Assembly Predicted_genes pfamID pfam_virulence PHIbase_effector effector_ortholog canonical_SP noncanonical_SP SSCP CSEP Secreted_effectorP3 Secreted_CAZY newSSCP newCSEP newSecreted_effectorP3 all > EffectorPredictionReport.txt
-for proteome in $(ls */*/gene_pred/braker/final/final_genes_renamed.pep.fasta); do 
- ID=$( echo $proteome | cut -d '/' -f2 | sed 's@HEAVEN_apple@Podosphaeraleucotricha_HEAVEN_apple@g'| sed 's@HEAVEN_strawberry@Podosphaeraaphanis_HEAVEN_strawberry@g'| sed 's@HEAVEN_raspberry@Podosphaeraaphanis_HEAVEN_raspberry@g'| sed 's@GANAN_apple@Podosphaeraleucotricha_Ganan_apple@g'|sed 's@Erysiphealphitoides_CLCBIO_assembly_cdhitest_0@Erysiphealphitoides_CLCBIO_assembly@g'|sed 's@Oidiodendron_maius@Oidiodendronmaius@g'|sed 's@phialocephalasubalpina-GCA_900073065@phialocephalasubalpina_GCA_900073065@g')
- OutDir=$(echo */$ID/gene_pred/predector/Prothint)
- Annotations=${OutDir}/${ID}_annotations3.tsv
- Predictedgenes=$(cut -f1 $Annotations| grep -v 'name' | wc -l)
- pfamID=$(awk '$18 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
- pfamvirulence=$(awk '$20 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- PHIbaseeffector=$(awk '$15 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- effectorortholog=$(awk '$11 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
- canonicalsp=$(awk '$31 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- noncanonical=$(awk '$31 != "1" && $5 != 'signal' && $2 > 0.6 {print $1}' $Annotations| grep -v 'name' | wc -l)
- sscp=$(awk '$31 == "1" && $36 <= 300 && $39 > 3 {print $1}' $Annotations| grep -v 'name' | wc -l)
- csep=$(awk '$31 == "1" && $7 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
- secretedeffector=$(awk '$31 == "1" && $27 == "." && $7 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
- secretedcazy=$(awk '$31 == "1" && $21 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
- newsscp=$(awk '$31 == "1" && $36 <= 300 && $39 > 3 && $11 == "." && $15 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- newcsep=$(awk '$31 == "1" && $7 == "0" && $11 == "." && $15 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- newsecretedeffector=$(awk '$31 == "1" && $27 == "." && $11 == "." && $15 != "1" && $7 == "0" {print $1}'  $Annotations| grep -v 'name' | wc -l)
- PHIbaseororthologeffector=$(awk '$15 == "1" || $11 != "." || ($31 == "1" && $27 == "." && $7 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
- echo $ID $Predictedgenes $pfamID $pfamvirulence $PHIbaseeffector $effectorortholog $canonicalsp $noncanonical $sscp $csep $secretedeffector $secretedcazy $newsscp $newcsep $newsecretedeffector $PHIbaseororthologeffector >> EffectorPredictionReport.txt
-done
-
-echo Species+Assembly Predicted_genes pfamID pfam_virulence PHIbase_effector effector_ortholog canonical_SP noncanonical_SP SSCP CSEP Secreted_effectorP3 Secreted_CAZY newSSCP newCSEP newSecreted_effectorP3 csep_val all > AbinitioEffectorPredictionReport.txt
-for proteome in $(ls */*/gene_pred/braker/final/ab_initio_final_genes_renamed.pep.fasta); do 
- ID=$( echo $proteome | cut -d '/' -f2 | sed 's@HEAVEN_apple@Podosphaeraleucotricha_HEAVEN_apple@g'| sed 's@HEAVEN_strawberry@Podosphaeraaphanis_HEAVEN_strawberry@g'| sed 's@HEAVEN_raspberry@Podosphaeraaphanis_HEAVEN_raspberry@g'| sed 's@GANAN_apple@Podosphaeraleucotricha_Ganan_apple@g'|sed 's@Erysiphealphitoides_CLCBIO_assembly_cdhitest_0@Erysiphealphitoides_CLCBIO_assembly@g'|sed 's@Oidiodendron_maius@Oidiodendronmaius@g'|sed 's@phialocephalasubalpina-GCA_900073065@phialocephalasubalpina_GCA_900073065@g')
- OutDir=$(echo */$ID/gene_pred/predector/abinitio)
- Annotations=${OutDir}/${ID}_abinitio_annotations3.tsv
- Predictedgenes=$(cut -f1 $Annotations| grep -v 'name' | wc -l)
- pfamID=$(awk '$18 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
- pfamvirulence=$(awk '$20 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- PHIbaseeffector=$(awk '$15 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- effectorortholog=$(awk '$11 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
- canonicalsp=$(awk '$31 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- noncanonical=$(awk '$31 != "1" && $5 != 'signal' && $2 > 0.6 {print $1}' $Annotations| grep -v 'name' | wc -l)
- sscp=$(awk '$31 == "1" && $36 <= 300 && $39 > 3 {print $1}' $Annotations| grep -v 'name' | wc -l)
- csep=$(awk '$31 == "1" && $7 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
- secretedeffector=$(awk '$31 == "1" && $27 == "." && $7 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
- secretedcazy=$(awk '$31 == "1" && $21 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
- newsscp=$(awk '$31 == "1" && $36 <= 300 && $39 > 3 && $11 == "." && $15 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- newcsep=$(awk '$31 == "1" && $7 == "0" && $11 == "." && $15 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
- newsecretedeffector=$(awk '$31 == "1" && $27 == "." && $11 == "." && $15 != "1" && $7 == "0" {print $1}'  $Annotations| grep -v 'name' | wc -l)
- all=$(awk '$15 == "1" || $11 != "." || ($31 == "1" && $27 == "." && $7 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
- csep_val=$(awk '$11 != "." || ($31 == "1" && $27 == "." && $7 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
- echo $ID $Predictedgenes $pfamID $pfamvirulence $PHIbaseeffector $effectorortholog $canonicalsp $noncanonical $sscp $csep $secretedeffector $secretedcazy $newsscp $newcsep $newsecretedeffector $csep_val $all >> AbinitioEffectorPredictionReport.txt
-done
-
 ```
+#### Orthofinder
+```bash
+for Annotations in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/Prothint/*annotations3.tsv); do
+fasta=$(echo $Annotations | cut -d '/' -f1,2,3,4,5,6,7,8,9,10,11,12,13)/clean_final_genes_renamed.pep.fasta
+out=$(dirname $Annotations)/cseps-xtra.fasta
+awk '($30 == "1" && $6 == "0") || $10 ~ /BgtAVRa10|BgtAVRk1/ {print $1}' $Annotations > ids.txt
+python3 /home/theaven/scratch/apps/tools/seq_get.py --id_file ids.txt --input $fasta --output $out
+done
 
+for Annotations in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/abinitio/*annotations3.tsv); do
+fasta=$(echo $Annotations | cut -d '/' -f1,2,3,4,5,6,7,8,9,10,11,12,13)/clean_ab_initio_final_genes_renamed.pep.fasta
+out=$(dirname $Annotations)/ab_initio_cseps-xtra.fasta
+awk '($30 == "1" && $6 == "0") || $10 ~ /BgtAVRa10|BgtAVRk1/ {print $1}' $Annotations > ids2.txt
+python3 /home/theaven/scratch/apps/tools/seq_get.py --id_file ids2.txt --input $fasta --output $out
+done
+
+ProjDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder
+cd $ProjDir
+IsolateAbrv=All_mildew_cseps
+WorkDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder/$IsolateAbrv
+mkdir -p $WorkDir
+mkdir -p $WorkDir/formatted
+mkdir -p $WorkDir/goodProteins
+mkdir -p $WorkDir/badProteins  
+cd $WorkDir/formatted
+
+for Fasta_file in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/Prothint/cseps-xtra.fasta); do
+Id_field=1
+ID=$(echo $Fasta_file | cut -d '/' -f7 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f8 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f9)
+~/git_repos/Scripts/gruffalo/orthomclAdjustFasta.pl $ID $Fasta_file $Id_field
+done
+
+cd $ProjDir
+
+Input_dir=$WorkDir/formatted
+Min_length=10
+Max_percent_stops=20
+Good_proteins_file=$WorkDir/goodProteins/goodProteins.fasta
+Poor_proteins_file=$WorkDir/badProteins/poorProteins.fasta
+~/git_repos/Scripts/gruffalo/orthomclFilterFasta.pl $Input_dir $Min_length $Max_percent_stops $Good_proteins_file $Poor_proteins_file
+
+
+conda activate orthofinder
+Prefix=$IsolateAbrv
+OutDir=$IsolateAbrv
+sbatch ~/git_repos/Wrappers/gruffalo/run_orthofinder.sh $Input_dir $Prefix $OutDir
+#23731163
+
+ProjDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder
+cd $ProjDir
+IsolateAbrv=All_mildew_cseps_abinitio
+WorkDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder/$IsolateAbrv
+mkdir -p $WorkDir
+mkdir -p $WorkDir/formatted
+mkdir -p $WorkDir/goodProteins
+mkdir -p $WorkDir/badProteins  
+cd $WorkDir/formatted
+
+for Fasta_file in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/abinitio/ab_initio_cseps-xtra.fasta); do
+Id_field=1
+ID=$(echo $Fasta_file | cut -d '/' -f7 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f8 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f9)
+~/git_repos/Scripts/gruffalo/orthomclAdjustFasta.pl $ID $Fasta_file $Id_field
+done
+
+cd $ProjDir
+
+Input_dir=$WorkDir/formatted
+Min_length=10
+Max_percent_stops=20
+Good_proteins_file=$WorkDir/goodProteins/goodProteins.fasta
+Poor_proteins_file=$WorkDir/badProteins/poorProteins.fasta
+~/git_repos/Scripts/gruffalo/orthomclFilterFasta.pl $Input_dir $Min_length $Max_percent_stops $Good_proteins_file $Poor_proteins_file
+
+
+conda activate orthofinder
+Prefix=$IsolateAbrv
+OutDir=$IsolateAbrv
+sbatch ~/git_repos/Wrappers/gruffalo/run_orthofinder.sh $Input_dir $Prefix $OutDir
+#23730145
+
+ProjDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder
+cd $ProjDir
+IsolateAbrv=All_mildew_prothint
+WorkDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder/$IsolateAbrv
+mkdir -p $WorkDir
+mkdir -p $WorkDir/formatted
+mkdir -p $WorkDir/goodProteins
+mkdir -p $WorkDir/badProteins  
+cd $WorkDir/formatted
+
+for Fasta_file in $(ls /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000151065.3/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153116/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153117/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153118/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153119/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153120/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Parauncinula/polyspora/Parp01/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/fusca/GCA_030378345.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_028751805.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000417025.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000417865.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000418435.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000441875.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_900519115.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_905067625.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_000401675.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900237765.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900239735.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900638725.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/alphitoides/CLCBIO/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798715.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798735.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798755.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798775.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798795.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_016906895.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/neolycopersici/GCA_003610855.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/pisi/GCA_000208805.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/pisi/GCA_000214055.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/pulchra/GCA_002918395.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611195.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611215.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611235.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/magnicellulatus/GCA_006912115.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/orontii/MGH1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Leveillula/taurrica/CADEPA01/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Phyllactinia/moricola/GCA_019455665.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Pleochaeta/shiraiana/GCA_019455505.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/DRT72020/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/DRT72021/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/SCOTT2020/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/cerasii/GCA_018398735.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/GCA_013170925.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGB2019/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGB2021/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGBp112020/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_010015925.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_014884795.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Oidium/heveae/GCA_003957845.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_024703715.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta); do
+Id_field=1
+ID=$(echo $Fasta_file | cut -d '/' -f7 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f8 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f9)
+~/git_repos/Scripts/gruffalo/orthomclAdjustFasta.pl $ID $Fasta_file $Id_field
+done
+
+cd $ProjDir
+
+Input_dir=$WorkDir/formatted
+Min_length=10
+Max_percent_stops=20
+Good_proteins_file=$WorkDir/goodProteins/goodProteins.fasta
+Poor_proteins_file=$WorkDir/badProteins/poorProteins.fasta
+~/git_repos/Scripts/gruffalo/orthomclFilterFasta.pl $Input_dir $Min_length $Max_percent_stops $Good_proteins_file $Poor_proteins_file
+
+
+conda activate orthofinder
+Prefix=$IsolateAbrv
+OutDir=$IsolateAbrv
+sbatch ~/git_repos/Wrappers/gruffalo/run_orthofinder.sh $Input_dir $Prefix $OutDir
+#23726846
+
+ProjDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder
+cd $ProjDir
+IsolateAbrv=All_mildew_ab_initio
+WorkDir=/home/theaven/scratch/uncompressed/analysis/orthology/orthofinder/$IsolateAbrv
+mkdir -p $WorkDir
+mkdir -p $WorkDir/formatted
+mkdir -p $WorkDir/goodProteins
+mkdir -p $WorkDir/badProteins  
+cd $WorkDir/formatted
+
+for Fasta_file in $(ls /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000151065.3/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153116/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153117/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153118/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153119/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153120/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Parauncinula/polyspora/Parp01/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/fusca/GCA_030378345.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_028751805.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000417025.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000417865.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000418435.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000441875.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_900519115.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_905067625.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_000401675.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900237765.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900239735.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900638725.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/alphitoides/CLCBIO/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798715.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798735.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798755.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798775.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798795.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_016906895.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/neolycopersici/GCA_003610855.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/pisi/GCA_000208805.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/pisi/GCA_000214055.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/pulchra/GCA_002918395.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611195.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611215.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611235.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/magnicellulatus/GCA_006912115.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Golovinomyces/orontii/MGH1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Leveillula/taurrica/CADEPA01/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Phyllactinia/moricola/GCA_019455665.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Pleochaeta/shiraiana/GCA_019455505.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/DRT72020/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/DRT72021/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/SCOTT2020/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/cerasii/GCA_018398735.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/GCA_013170925.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGB2019/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGB2021/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGBp112020/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_010015925.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_014884795.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Oidium/heveae/GCA_003957845.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta /home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_024703715.1/fcs/gene_pred/braker/final-02042924/clean_final_genes_renamed.pep.fasta | sed 's@clean_final_genes_renamed.pep.fasta@clean_ab_initio_final_genes_renamed.pep.fasta@g'); do
+#echo $Fasta_file
+#grep '>;' $Fasta_file
+Id_field=1
+ID=$(echo $Fasta_file | cut -d '/' -f7 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f8 | cut -c 1-3)_$(echo $Fasta_file | cut -d '/' -f9)
+~/git_repos/Scripts/gruffalo/orthomclAdjustFasta.pl $ID $Fasta_file $Id_field
+done
+
+cd $ProjDir
+
+Input_dir=$WorkDir/formatted
+Min_length=10
+Max_percent_stops=20
+Good_proteins_file=$WorkDir/goodProteins/goodProteins.fasta
+Poor_proteins_file=$WorkDir/badProteins/poorProteins.fasta
+~/git_repos/Scripts/gruffalo/orthomclFilterFasta.pl $Input_dir $Min_length $Max_percent_stops $Good_proteins_file $Poor_proteins_file
+
+
+conda activate orthofinder
+Prefix=$IsolateAbrv
+OutDir=$IsolateAbrv
+sbatch ~/git_repos/Wrappers/gruffalo/run_orthofinder.sh $Input_dir $Prefix $OutDir
+#23726964
+```
 
 
 
@@ -6857,4 +6953,389 @@ ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/aphanis-uniq
 ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/leuco_common_secreted_effectors-cleaved/*/*/ranked_0.pdb | wc -l
 ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/leucotricha-unique-cseps-cleaved/*/*/ranked_0.pdb | wc -l
 ```
+########################################################
 
+```R
+DRCT72020 <- read_excel("P_aphanis_THeavenDRCT72020_annotations_master.xlsx")
+DRCT72021 <- read_excel("P_aphanis_THeavenDRCT72021_annotations_master.xlsx")
+scott2020 <- read_excel("P_aphanis_THeavenSCOTT2020_annotations_master.xlsx")
+OGB2019 <- read_excel("P_leucotricha_THeavenpOGB2019_annotations_master.xlsx")
+OGB2021 <- read_excel("P_leucotricha_THeavenpOGB2021_annotations_master.xlsx")
+p112020 <- read_excel("P_leucotricha_THeavenp11_annotations_master.xlsx")
+OGB2019 <- read.xlsx("P_leucotricha_THeavenpOGB2019_annotations_master.xlsx", sheet = 1)
+
+data <- DRCT72020
+data <- DRCT72021
+data <- scott2020
+data <- OGB2019
+data <- p112020
+data <- OGB2021
+
+shapiro_test_cleaned <- data %>%
+  filter(te_group == "Any TE") %>%
+  filter(BUSCO_blast_match == "1") %>%
+  filter(IG_five_prime != 99999) %>%  # Remove end of contig values
+  filter(!is.na(IG_five_prime)) %>%  
+  pull(IG_five_prime)
+
+if (length(shapiro_test_cleaned) >= 3) {
+  shapiro_result <- shapiro.test(shapiro_test_cleaned)
+  print(shapiro_result)
+} else {
+  print("Sample size is too small for the Shapiro-Wilk test.")
+}
+
+shapiro_test_cleaned <- data %>%
+  filter(te_group == "Any TE") %>%
+  filter(BUSCO_blast_match == "1") %>%
+  filter(IG_three_prime != 99999) %>%  # Remove end of contig values
+  filter(!is.na(IG_three_prime)) %>%  
+  pull(IG_three_prime)
+
+if (length(shapiro_test_cleaned) >= 3) {
+  shapiro_result <- shapiro.test(shapiro_test_cleaned)
+  print(shapiro_result)
+} else {
+  print("Sample size is too small for the Shapiro-Wilk test.")
+}
+```
+Wilcoxon rank sum test - BUSCOs, is 3' larger than 5'
+```R
+datasets <- list(
+  DRCT72020 = DRCT72020,
+  DRCT72021 = DRCT72021,
+  scott2020 = scott2020,
+  OGB2019 = OGB2019,
+  p112020 = p112020,
+  OGB2021 = OGB2021
+)
+
+for (dataset_name in names(datasets)) {
+  data <- datasets[[dataset_name]]
+  
+  three_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(BUSCO_blast_match == "1") %>%
+    filter(!is.na(IG_three_prime), IG_three_prime != 99999) %>%
+    select(IG_three_prime) %>%
+    mutate(group = "three_prime")
+  
+  five_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(BUSCO_blast_match == "1") %>%
+    filter(!is.na(IG_five_prime), IG_five_prime != 99999) %>%
+    select(IG_five_prime) %>%
+    mutate(group = "five_prime")
+  
+  combined_data <- bind_rows(
+    three_prime_data %>% rename(value = IG_three_prime),
+    five_prime_data %>% rename(value = IG_five_prime)
+  )
+
+  combined_data$group <- factor(combined_data$group, levels = c("three_prime", "five_prime"))
+  
+  mann_whitney_result <- wilcox.test(value ~ group, 
+                                     data = combined_data, 
+                                     alternative = "greater")
+  
+  cat("\nDataset:", dataset_name, "\n")
+  print(mann_whitney_result)
+}
+```
+Dataset: DRCT72020 
+W = 2769357, p-value = 2.813e-11
+alternative hypothesis: true location shift is less than 0
+
+Dataset: DRCT72021 
+W = 3335718, p-value = 1.122e-10
+alternative hypothesis: true location shift is less than 0
+
+Dataset: scott2020 
+W = 2080894, p-value = 8.793e-16
+alternative hypothesis: true location shift is less than 0
+
+Dataset: OGB2019 
+W = 4545421, p-value = 8.949e-06
+alternative hypothesis: true location shift is less than 0
+
+Dataset: p112020 
+W = 4093420, p-value = 2.799e-06
+alternative hypothesis: true location shift is less than 0
+
+Dataset: OGB2021 
+W = 4015754, p-value = 1.191e-07
+alternative hypothesis: true location shift is less than 0
+
+Wilcoxon rank sum test - CSEPs, is 5' larger than 3'
+```R
+datasets <- list(
+  DRCT72020 = DRCT72020,
+  DRCT72021 = DRCT72021,
+  scott2020 = scott2020,
+  OGB2019 = OGB2019,
+  p112020 = p112020,
+  OGB2021 = OGB2021
+)
+
+for (dataset_name in names(datasets)) {
+  data <- datasets[[dataset_name]]
+  
+  three_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(outgroup_orthology_match == 0) %>%
+    filter(is_secreted == 1) %>%
+    filter(effectorp3_noneffector == ".") %>%
+    filter(!is.na(IG_three_prime), IG_three_prime != 99999) %>%
+    select(IG_three_prime) %>%
+    mutate(group = "three_prime")
+  
+  five_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(outgroup_orthology_match == 0) %>%
+    filter(is_secreted == 1) %>%
+    filter(effectorp3_noneffector == ".") %>%
+    filter(!is.na(IG_five_prime), IG_five_prime != 99999) %>%
+    select(IG_five_prime) %>%
+    mutate(group = "five_prime")
+  
+  combined_data <- bind_rows(
+    three_prime_data %>% rename(value = IG_three_prime),
+    five_prime_data %>% rename(value = IG_five_prime)
+  )
+
+  combined_data$group <- factor(combined_data$group, levels = c("five_prime", "three_prime"))
+  
+  mann_whitney_result <- wilcox.test(value ~ group, 
+                                     data = combined_data, 
+                                     alternative = "greater")
+  
+  cat("\nDataset:", dataset_name, "\n")
+  print(mann_whitney_result)
+}
+```
+Dataset: DRCT72020 
+W = 7014.5, p-value = 0.04858
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: DRCT72021 
+W = 6624, p-value = 0.5341
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: scott2020 
+W = 2663.5, p-value = 0.6066
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2019 
+W = 28646, p-value = 0.1317
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: p112020 
+W = 25213, p-value = 0.431
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2021 
+W = 26229, p-value = 0.4327
+alternative hypothesis: true location shift is greater than 0
+
+Wilcoxon rank sum test - CAZYs, is 5' larger than 3'
+```R
+datasets <- list(
+  DRCT72020 = DRCT72020,
+  DRCT72021 = DRCT72021,
+  scott2020 = scott2020,
+  OGB2019 = OGB2019,
+  p112020 = p112020,
+  OGB2021 = OGB2021
+)
+
+for (dataset_name in names(datasets)) {
+  data <- datasets[[dataset_name]]
+  
+  three_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(dbcan_matches != ".") %>%
+    filter(!is.na(IG_three_prime), IG_three_prime != 99999) %>%
+    select(IG_three_prime) %>%
+    mutate(group = "three_prime")
+  
+  five_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(dbcan_matches != ".") %>%
+    filter(!is.na(IG_five_prime), IG_five_prime != 99999) %>%
+    select(IG_five_prime) %>%
+    mutate(group = "five_prime")
+  
+  combined_data <- bind_rows(
+    three_prime_data %>% rename(value = IG_three_prime),
+    five_prime_data %>% rename(value = IG_five_prime)
+  )
+
+  combined_data$group <- factor(combined_data$group, levels = c("five_prime", "three_prime"))
+  
+  mann_whitney_result <- wilcox.test(value ~ group, 
+                                     data = combined_data, 
+                                     alternative = "greater")
+  
+  cat("\nDataset:", dataset_name, "\n")
+  print(mann_whitney_result)
+}
+```
+Dataset: DRCT72020 
+W = 6666, p-value = 0.3778
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: DRCT72021 
+W = 18316, p-value = 0.01473
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: scott2020 
+W = 4974, p-value = 0.4667
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2019 
+W = 20066, p-value = 0.002017
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: p112020 
+W = 13004, p-value = 0.02906
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2021 
+W = 12370, p-value = 0.04242
+alternative hypothesis: true location shift is greater than 0
+
+Wilcoxon rank sum test - RALPHs, is 5' larger than 3'
+```R
+datasets <- list(
+  DRCT72020 = DRCT72020,
+  DRCT72021 = DRCT72021,
+  scott2020 = scott2020,
+  OGB2019 = OGB2019,
+  p112020 = p112020,
+  OGB2021 = OGB2021
+)
+
+for (dataset_name in names(datasets)) {
+  data <- datasets[[dataset_name]]
+  
+  three_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(str_detect(effector_matches, "BghBEC1011|BgtAVRa10|BgAVRA13|BgtAvrPm2|BgtSvrPm3a1f1")) %>%
+    filter(!is.na(IG_three_prime), IG_three_prime != 99999) %>%
+    select(IG_three_prime) %>%
+    mutate(group = "three_prime")
+  
+  five_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(str_detect(effector_matches, "BghBEC1011|BgtAVRa10|BgAVRA13|BgtAvrPm2|BgtSvrPm3a1f1")) %>%
+    filter(!is.na(IG_five_prime), IG_five_prime != 99999) %>%
+    select(IG_five_prime) %>%
+    mutate(group = "five_prime")
+  
+  combined_data <- bind_rows(
+    three_prime_data %>% rename(value = IG_three_prime),
+    five_prime_data %>% rename(value = IG_five_prime)
+  )
+
+  combined_data$group <- factor(combined_data$group, levels = c("five_prime", "three_prime"))
+  
+  mann_whitney_result <- wilcox.test(value ~ group, 
+                                     data = combined_data, 
+                                     alternative = "greater")
+  
+  cat("\nDataset:", dataset_name, "\n")
+  print(mann_whitney_result)
+}
+```
+Dataset: DRCT72020 
+W = 5007.5, p-value = 0.006883
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: DRCT72021 
+W = 3506.5, p-value = 0.006431
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: scott2020 
+W = 2222.5, p-value = 0.04384
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2019 
+W = 52128, p-value = 0.01667
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: p112020 
+W = 53784, p-value = 0.01695
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2021 
+W = 49915, p-value = 0.01254
+alternative hypothesis: true location shift is greater than 0
+
+Wilcoxon rank sum test - EKAs, is 5' larger than 3'
+```R
+datasets <- list(
+  DRCT72020 = DRCT72020,
+  DRCT72021 = DRCT72021,
+  scott2020 = scott2020,
+  OGB2019 = OGB2019,
+  p112020 = p112020,
+  OGB2021 = OGB2021
+)
+
+for (dataset_name in names(datasets)) {
+  data <- datasets[[dataset_name]]
+  
+  three_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(str_detect(effector_matches, "BgtAVRk1|BgtAVRa10")) %>%
+    filter(is_secreted != 1) %>%
+    filter(!is.na(IG_three_prime), IG_three_prime != 99999) %>%
+    select(IG_three_prime) %>%
+    mutate(group = "three_prime")
+  
+  five_prime_data <- data %>%
+    filter(te_group == "Gene") %>%
+    filter(str_detect(effector_matches, "BgtAVRk1|BgtAVRa10")) %>%
+    filter(is_secreted != 1) %>%
+    filter(!is.na(IG_five_prime), IG_five_prime != 99999) %>%
+    select(IG_five_prime) %>%
+    mutate(group = "five_prime")
+  
+  combined_data <- bind_rows(
+    three_prime_data %>% rename(value = IG_three_prime),
+    five_prime_data %>% rename(value = IG_five_prime)
+  )
+
+  combined_data$group <- factor(combined_data$group, levels = c("five_prime", "three_prime"))
+  
+  mann_whitney_result <- wilcox.test(value ~ group, 
+                                     data = combined_data, 
+                                     alternative = "greater")
+  
+  cat("\nDataset:", dataset_name, "\n")
+  print(mann_whitney_result)
+}
+```
+Dataset: DRCT72020 
+W = 2102.5, p-value = 0.005381
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: DRCT72021 
+W = 1499.5, p-value = 0.02297
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: scott2020 
+W = 1226.5, p-value = 0.008693
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2019 
+W = 6506.5, p-value = 0.00451
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: p112020 
+W = 7486, p-value = 0.0009135
+alternative hypothesis: true location shift is greater than 0
+
+Dataset: OGB2021 
+W = 5897.5, p-value = 0.001609
+alternative hypothesis: true location shift is greater than 0
