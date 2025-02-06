@@ -4158,14 +4158,59 @@ done
 
 screen -S busco
 conda activate BUSCO
-for assembly in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/*_clean.fasta); do
-      Jobs=$(squeue -u theaven |grep 'busco'| wc -l)
-    echo x
-    while [ $Jobs -gt 5 ]; do
-      sleep 120s
-      printf "."
-      Jobs=$(squeue -u theaven |grep 'busco'| wc -l)
-    done
+for assembly in $(ls -r 
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_028751805.1/fcs/GCA_028751805.1_YZU_CsPM_1.2_genom_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_014884795.1/fcs/Podosphaeraxanthii_GCA_014884795.1_ASM1488479v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/xanthii/GCA_010015925.1/fcs/Podosphaeraxanthii_GCA_010015925.1_POXAN_niab_assembly_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGBp112020/fcs/HEAVEN_apple2020_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGB2021/fcs/HEAVEN_apple2021_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/OGB2019/fcs/HEAVEN_apple2019_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/leucotricha/GCA_013170925.1/fcs/GANAN_apple_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/fusca/GCA_030378345.1/fcs/GCA_030378345.1_ASM3037834v1_genom_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/cerasii/GCA_018398735.1/fcs/Podosphaeracerasii_GCA_018398735.1_WSU_PS_Poc_1.0_genomic._clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/SCOTT2020/fcs/HEAVEN_raspberry2020_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/DRT72021/fcs/HEAVEN_strawberry2021_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Podosphaera/aphanis/DRT72020/fcs/HEAVEN_strawberry2020_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Pleochaeta/shiraiana/GCA_019455505.1/fcs/pleochaetashiraiana_GCA_019455505.1_ASM1945550v1_genom_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Phyllactinia/moricola/GCA_019455665.1/fcs/phyllactiniamoricola_GCA_019455665.1_ASM1945566v1_genom_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Parauncinula/polyspora/Parp01/fcs/Parpo1_AssemblyScaffolds_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Leveillula/taurrica/CADEPA01/fcs/leveillulataurrica_CADEPA01_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Golovinomyces/orontii/MGH1/fcs/Golovinomycesorontii_AssemblyScaffolds_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Golovinomyces/magnicellulatus/GCA_006912115.1/fcs/Golovinomycesmagnicellulatus_GCA_006912115.1_ASM691211v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611235.1/fcs/Golovinomycescichoracearum_GCA_003611235.1_ASM361123v11_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611215.1/fcs/Golovinomycescichoracearum_GCA_003611215.1_ASM361121v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Golovinomyces/cichoracearum/GCA_003611195.1/fcs/Golovinomycescichoracearum_GCA_003611195.1_ASM361119v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/pulchra/GCA_002918395.1/fcs/Erysiphepulchra_GCA_002918395.1_ASM291839v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/pisi/GCA_000214055.1/fcs/Erysiphepisi_GCA_000214055.1_ASM21405v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/pisi/GCA_000208805.1/fcs/Erysiphepisi_GCA_000208805.1_ASM20880v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/neolycopersici/GCA_003610855.1/fcs/Erysipheneolycopersici_GCA_003610855.1_ASM361085v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_024703715.1/fcs/GCA_024703715.1_EnE101_chr_assembly_v3_genom_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_016906895.1/fcs/Erysiphenecator_GCA_016906895.1_ASM1690689v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798795.1/fcs/Erysiphenecator_GCA_000798795.1_ASM79879v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798775.1/fcs/Erysiphenecator_GCA_000798775.1_ASM79877v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798755.1/fcs/Erysiphenecator_GCA_000798755.1_ASM79875v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798735.1/fcs/Erysiphenecator_GCA_000798735.1_ASM79873v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/necator/GCA_000798715.1/fcs/Erysiphenecator_GCA_000798715.1_ASM79871v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Erysiphe/alphitoides/CLCBIO/fcs/Erysiphealphitoides_CLCBIO_assembly_cdhitest_0.95_morethan500bp_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900638725.1/fcs/Blumeriahordei_GCA_900638725.1_BGH_K1_v2_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900239735.1/fcs/Blumeriahordei_GCA_900239735.1_BGH_DH14_v4_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_900237765.1/fcs/Blumeriahordei_GCA_900237765.1_BghRACE1_v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/hordei/GCA_000401675.1/fcs/Blumeriahordei_GCA_000401675.1_A6_trimmed_clc_assembly_flt.fa_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153120/fcs/S_1400_contigs_min_500bp_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153119/fcs/S_1391_contigs_min_500bp_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153118/fcs/S_1203_contigs_min_500bp_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153117/fcs/S_1201_contigs_min_500bp_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis-secale/SRR2153116/fcs/S_1459_contigs_min_500bp_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_905067625.1/fcs/Blumeriagraminis_GCA_905067625.1_Bgtriticale_THUN12_genome_v1_2_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_900519115.1/fcs/Blumeriagraminis_GCA_900519115.1_Bgt_genome_v3.16_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000441875.1/fcs/Blumeriagraminis_GCA_000441875.1_Bgt_70_1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000418435.1/fcs/Blumeriagraminis_GCA_000418435.1_Bgt_454_newbler_assembly_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000417865.1/fcs/Blumeriagraminis_GCA_000417865.1_Bgt_94202_1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000417025.1/fcs/Blumeriagraminis_GCA_000417025.1_ASM41702v1_genomic_clean.fasta
+/home/theaven/scratch/uncompressed/genomes/Blumeria/graminis/GCA_000151065.3/fcs/GCA_000151065.3_ASM15106v3_genom_clean.fasta
+
+); do
+
   ID=$(echo $assembly | cut -d '/' -f7 | cut -c 1-3)_$(echo $assembly | cut -d '/' -f8 | cut -c 1-3)_$(echo $assembly | cut -d '/' -f9)
   OutDir=$(dirname $assembly)/gene_pred/braker/final-02042924/predector/Prothint/results/BUSCO
   echo $OutDir
@@ -4181,7 +4226,6 @@ for assembly in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/*_clea
     echo already run
   fi
 done
-
 
 for file in $(ls /home/theaven/scratch/uncompressed/genomes/*/*/*/fcs/gene_pred/braker/final-02042924/predector/Prothint/results/BUSCO/ascomycota_odb10/*/short_summary*.txt); do
 ID=$(echo $file | cut -d '/' -f7 | cut -c 1-3)_$(echo $file | cut -d '/' -f8 | cut -c 1-3)_$(echo $file | cut -d '/' -f9)
@@ -6924,10 +6968,11 @@ fi
 done
 ```
 ```bash
-mkdir temp_AF2-2 
-for file in $(ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/*-unique-cseps-cleaved/*/*/ranked_0.pdb /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/*_common_secreted_effectors-cleaved/*/*/ranked_0.pdb); do
-ID=$(echo $file | cut -d '/' -f8 | cut -d '-' -f1 )_$(echo $file | cut -d '/' -f9)_$(basename $file)
-cp $file temp_AF2-2/$ID
+mkdir temp_AF2-3
+for file in $(ls temp_up/*-unique-cseps-cleaved/*/*/ranked_0.pdb temp_up/*_common_secreted_effectors-cleaved/*/*/ranked_0.pdb); do
+ID=$(echo $file | cut -d '/' -f2 | cut -d '-' -f1 )_$(echo $file | cut -d '/' -f3)_$(basename $file)
+echo $ID
+cp $file temp_AF2-3/$ID
 done
 
 for file in /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/Seong+Krasileva/all/*.pdb
@@ -6938,7 +6983,7 @@ done
 source package cda29b6a-320e-4d73-83c6-240ed7a6201e
 pdb_dir=/jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/temp_AF2-2
 cpu=1  
-
+pdb_dir=/home/theaven/scratch/jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/temp_AF2-2
 Prefix=cluster
 foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp
 Prefix=clusterxy-4
@@ -6947,11 +6992,125 @@ Prefix=clusterxy-4-4
 foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.4 --lddt-threshold 0 --tmscore-threshold 0.4 $pdb_dir $Prefix tmp
 Prefix=clusterxy-0-5
 foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.0 --lddt-threshold 0 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp
+Prefix=clusterxy-0-6
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.0 --lddt-threshold 0 --tmscore-threshold 0.6 $pdb_dir $Prefix tmp
+Prefix=clusterxy-0-7
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.0 --lddt-threshold 0 --tmscore-threshold 0.7 $pdb_dir $Prefix tmp
+Prefix=clusterxy-0-8
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.0 --lddt-threshold 0 --tmscore-threshold 0.8 $pdb_dir $Prefix tmp
+Prefix=clusterxy-0-9
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.0 --lddt-threshold 0 --tmscore-threshold 0.9 $pdb_dir $Prefix tmp
+
+srun -p short -J foldseek --mem 16G --cpus-per-task 4 --pty bash
+conda activate foldseek
+pdb_dir=/home/theaven/scratch/jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/temp_AF2-2
+cpu=4
+Prefix=clusterxy-5-4
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0 --tmscore-threshold 0.4 $pdb_dir $Prefix tmp2
+Prefix=clusterxy-5-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp2
+Prefix=clusterxy-5-6
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0 --tmscore-threshold 0.6 $pdb_dir $Prefix tmp2
+Prefix=clusterxy-5-7
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0 --tmscore-threshold 0.7 $pdb_dir $Prefix tmp2
+Prefix=clusterxy-5-8
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0 --tmscore-threshold 0.8 $pdb_dir $Prefix tmp2
+Prefix=clusterxy-5-9
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0 --tmscore-threshold 0.9 $pdb_dir $Prefix tmp2
+
+srun -p short -J foldseek --mem 16G --cpus-per-task 4 --pty bash
+conda activate foldseek
+pdb_dir=/home/theaven/scratch/jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/temp_AF2-2
+cpu=4
+Prefix=clusterxy-5-4-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.4 $pdb_dir $Prefix tmp3
+Prefix=clusterxy-5-5-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp3
+Prefix=clusterxy-5-6-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.6 $pdb_dir $Prefix tmp3
+Prefix=clusterxy-5-7-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.7 $pdb_dir $Prefix tmp3
+Prefix=clusterxy-5-8-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.8 $pdb_dir $Prefix tmp3
+Prefix=clusterxy-5-9-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.9 $pdb_dir $Prefix tmp3
+
+srun -p short -J foldseek --mem 16G --cpus-per-task 4 --pty bash
+conda activate foldseek
+pdb_dir=/home/theaven/scratch/jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/temp_AF2-2
+cpu=4
+Prefix=clusterxy-5-5-4
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.4 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp4
+Prefix=clusterxy-5-5-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp4
+Prefix=clusterxy-5-5-6
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.6 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp4
+Prefix=clusterxy-5-5-7
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.7 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp4
+Prefix=clusterxy-5-5-8
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.8 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp4
+Prefix=clusterxy-5-5-9
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.9 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp4
+
+srun -p short -J foldseek --mem 16G --cpus-per-task 4 --pty bash
+conda activate foldseek
+pdb_dir=/home/theaven/scratch/jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/temp_AF2-2
+cpu=4
+Prefix=clusterxy-5-4-4
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.4 --tmscore-threshold 0.4 $pdb_dir $Prefix tmp5
+Prefix=clusterxy-5-5-5
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.5 --tmscore-threshold 0.5 $pdb_dir $Prefix tmp5
+Prefix=clusterxy-5-6-6
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.6 --tmscore-threshold 0.6 $pdb_dir $Prefix tmp5
+Prefix=clusterxy-5-7-7
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.7 --tmscore-threshold 0.7 $pdb_dir $Prefix tmp5
+Prefix=clusterxy-5-8-8
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.8 --tmscore-threshold 0.8 $pdb_dir $Prefix tmp5
+Prefix=clusterxy-5-9-9
+foldseek easy-cluster --threads $cpu --alignment-type 2 -s 7.5 --max-seqs 99999 --min-seq-id 0.000 --cov-mode 0 -c 0.5 --lddt-threshold 0.9 --tmscore-threshold 0.9 $pdb_dir $Prefix tmp5
+
 
 ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/aphan_common_secreted_effectors-cleaved/*/*/ranked_0.pdb | wc -l
 ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/aphanis-unique-cseps-cleaved/*/*/ranked_0.pdb | wc -l
 ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/leuco_common_secreted_effectors-cleaved/*/*/ranked_0.pdb | wc -l
 ls /jic/scratch/groups/Saskia-Hogenhout/tom_heaven/nano_diagnostics/leucotricha-unique-cseps-cleaved/*/*/ranked_0.pdb | wc -l
+
+awk -F'\t' '
+{
+    group = $1
+    protein = $2
+    data[group] = data[group] ? data[group] FS protein : protein
+}
+END {
+    for (group in data)
+        print group, data[group]
+}' OFS='\t' clusterxy-5-6_cluster.tsv > clusterxy-5-6_cluster_reformat.tsv
+
+awk -F'\t' '
+{
+    group = $1
+    protein = $2
+    data[group] = data[group] ? data[group] FS protein : protein
+}
+END {
+    for (group in data)
+        print group, data[group]
+}' OFS='\t' clusterxy-0-6_cluster.tsv > clusterxy-0-6_cluster_reformat.tsv
+
+wc -l clusterxy-5-5_cluster_reformat.tsv #10524
+wc -l clusterxy-5-6_cluster_reformat.tsv #11503
+wc -l clusterx-0-5_cluster_reformat.tsv #6071
+wc -l clusterxy-0-6_cluster_reformat.tsv #10212
+
+for file in $(ls clusterxy-0-6_cluster_reformat.tsv); do
+grep 'leuco\|aphan' $file >> $(echo $file | sed 's@reformat.tsv@reformat2.tsv@g')
+done
+
+wc -l clusterxy-5-5_cluster_reformat2.tsv #235
+wc -l clusterxy-5-6_cluster_reformat2.tsv #263
+wc -l clusterx-0-5_cluster_reformat2.tsv #96
+wc -l clusterxy-0-6_cluster_reformat2.tsv #200
+
 ```
 ########################################################
 
@@ -7339,3 +7498,384 @@ alternative hypothesis: true location shift is greater than 0
 Dataset: OGB2021 
 W = 5897.5, p-value = 0.001609
 alternative hypothesis: true location shift is greater than 0
+
+```R
+datasets <- list(
+  OGB2019 = OGB2019,
+  p112020 = p112020,
+  OGB2021 = OGB2021
+)
+
+datasets <- list(
+  DRCT72020 = DRCT72020,
+  DRCT72021 = DRCT72021,
+  scott2020 = scott2020
+)
+
+TETYPES <- list(
+ANYTE = "Any TE",
+COPIA = "Copia",
+DNA = "DNA",
+GYPSY = "Gypsy",
+LINE = "LINE",
+LTR = "LTR",
+MARINER = "Mariner",
+POGO = "Pogo",
+TAD = "Tad"
+)
+
+CSEPTYPE <- c("1","2","3")
+
+for (TE_TYPE in names(TETYPES)) {
+  for (CSEP_TYPE in CSEPTYPE) {
+    if (CSEP_TYPE == "1") {
+      TREATMENT <- "Short CSEP"
+      CONTROL <- "Non CSEP"
+    } else if (CSEP_TYPE == "2") {
+      TREATMENT <- "Long CSEP"
+      CONTROL <- "Non CSEP"
+    } else if (CSEP_TYPE == "3") {
+      TREATMENT <- "Long CSEP"
+      CONTROL <- "Short CSEP"
+    }
+
+for (dataset_name in names(datasets)) {
+  data <- datasets[[dataset_name]]
+
+df_all <- data %>%
+  filter(te_group == TE_TYPE)
+
+df_all$BUSCO <- "Non"
+df_all$BUSCO[df_all$BUSCO_blast_match == 1] <- "BUSCO"
+
+df_all$three_prime_lgth[df_all$three_prime_lgth == 'Nested TE'] <- 0
+df_all$five_prime_lgth[df_all$five_prime_lgth == 'Nested TE'] <- 0
+
+df_all$three_prime_lgth[df_all$three_prime_lgth == 'gene'] <- NA
+df_all$five_prime_lgth[df_all$five_prime_lgth == 'gene'] <- NA
+
+df_all$three_prime_lgth[df_all$three_prime_lgth == 'end'] <- NA
+df_all$five_prime_lgth[df_all$five_prime_lgth == 'end'] <- NA
+
+df_all$three_prime_lgth[df_all$three_prime_lgth == 'None'] <- NA
+df_all$five_prime_lgth[df_all$five_prime_lgth == 'None'] <- NA
+
+df_all$three_prime_lgth <- as.numeric(df_all$three_prime_lgth)
+df_all$five_prime_lgth <- as.numeric(df_all$five_prime_lgth)
+
+# 5-prime 
+df_filtered3 <- df_all %>% filter(!is.na(five_prime_lgth) & five_prime_lgth != 99999)
+
+if (CONTROL == "Non CSEP") {
+df_filtered <- df_filtered3 %>%
+  filter((BUSCO == "BUSCO" & sec_type == CONTROL) | sec_type == TREATMENT)
+} else {
+df_filtered <- df_filtered3 %>%
+  filter(sec_type == CONTROL | sec_type == TREATMENT)
+}
+
+mean_other1 <- mean(subset(df_filtered$five_prime_lgth, df_filtered$sec_type == CONTROL))
+subset_df <- subset(df_filtered, sec_type == TREATMENT)
+
+num_treatment <- nrow(subset_df)
+mean_treatment1 <- mean(subset_df$five_prime_lgth, na.rm = TRUE)
+obs_diff_five <- mean_other1 - mean_treatment1
+average1 <- mean(df_filtered$five_prime_lgth)
+
+list <- vector()
+i <- 1
+while(i < 10000) {
+    test_group1 <- df_filtered[sample(nrow(df_filtered), num_treatment), ]
+    test_group1$treatment <- rep("treatment",nrow(test_group1))
+
+    test_group1_names <- test_group1$name
+    control_group <- df_filtered[!df_filtered$name %in% test_group1_names, ]
+    control_group$treatment <- rep("control",nrow(control_group))
+
+    pred_df <- rbind(test_group1, control_group)
+    pred_df$treatment <- as.factor(pred_df$treatment)
+
+    mean_other <- mean(subset(pred_df$five_prime_lgth, pred_df$treatment == "control"))
+    mean_treatment <- mean(subset(pred_df$five_prime_lgth, pred_df$treatment == "treatment"))
+    pred_diff <- mean_other1 - mean_treatment1
+    list[[i]] <- pred_diff
+    i <- i + 1
+}
+
+sig_5 = sum(list > obs_diff_five)
+
+# 3-prime 
+df_filtered3 <- df_all %>% filter(!is.na(three_prime_lgth) & three_prime_lgth != 99999)
+
+if (CONTROL == "Non CSEP") {
+df_filtered <- df_filtered3 %>%
+  filter((BUSCO == "BUSCO" & sec_type == CONTROL) | sec_type == TREATMENT)
+} else {
+df_filtered <- df_filtered3 %>%
+  filter(sec_type == CONTROL | sec_type == TREATMENT)
+}
+
+mean_other2 <- mean(subset(df_filtered$three_prime_lgth, df_filtered$sec_type == CONTROL))
+subset_df <- subset(df_filtered, sec_type == TREATMENT)
+
+num_treatment <- nrow(subset_df)
+mean_treatment2 <- mean(subset_df$three_prime_lgth, na.rm = TRUE)
+obs_diff_three <- mean_other2 - mean_treatment2
+average2 <- mean(df_filtered$three_prime_lgth)
+
+list <- vector()
+i <- 1
+while(i < 10000) {
+    test_group1 <- df_filtered[sample(nrow(df_filtered), num_treatment), ]
+    test_group1$treatment <- rep("treatment",nrow(test_group1))
+
+    test_group1_names <- test_group1$name
+    control_group <- df_filtered[!df_filtered$name %in% test_group1_names, ]
+    control_group$treatment <- rep("control",nrow(control_group))
+
+    pred_df <- rbind(test_group1, control_group)
+    pred_df$treatment <- as.factor(pred_df$treatment)
+
+    mean_other <- mean(subset(pred_df$three_prime_lgth, pred_df$treatment == "control"))
+    mean_treatment <- mean(subset(pred_df$three_prime_lgth, pred_df$treatment == "treatment"))
+    pred_diff <- mean_other2 - mean_treatment2
+    list[[i]] <- pred_diff
+    i <- i + 1
+}
+
+sig_3 = sum(list > obs_diff_three)
+
+# Total
+
+df_filtered2 <- df_all %>% filter(!is.na(five_prime_lgth) & five_prime_lgth != 99999)
+df_filtered3 <- df_filtered2 %>% filter(!is.na(three_prime_lgth) & three_prime_lgth != 99999)
+if (CONTROL == "Non CSEP") {
+df_filtered <- df_filtered3 %>%
+  filter((BUSCO == "BUSCO" & sec_type == CONTROL) | sec_type == TREATMENT)
+} else {
+df_filtered <- df_filtered3 %>%
+  filter(sec_type == CONTROL | sec_type == TREATMENT)
+}
+
+df_filtered$total_IG = df_filtered$five_prime_lgth + df_filtered$three_prime_lgth
+
+mean_other3 <- mean(subset(df_filtered$total_IG, df_filtered$sec_type == CONTROL))
+subset_df <- subset(df_filtered, sec_type == TREATMENT)
+
+num_treatment <- nrow(subset_df)
+mean_treatment3 <- mean(subset_df$total_IG, na.rm = TRUE)
+obs_diff <- mean_other3 - mean_treatment3
+average3 <- mean(df_filtered$total_IG)
+
+list <- vector()
+i <- 1
+while(i < 10000) {
+    test_group1 <- df_filtered[sample(nrow(df_filtered), num_treatment), ]
+    test_group1$treatment <- rep("treatment",nrow(test_group1))
+
+    test_group1_names <- test_group1$name
+    control_group <- df_filtered[!df_filtered$name %in% test_group1_names, ]
+    control_group$treatment <- rep("control",nrow(control_group))
+
+    pred_df <- rbind(test_group1, control_group)
+    pred_df$treatment <- as.factor(pred_df$treatment)
+
+    mean_other <- mean(subset(pred_df$total_IG, pred_df$treatment == "control"))
+    mean_treatment <- mean(subset(pred_df$total_IG, pred_df$treatment == "treatment"))
+    pred_diff <- mean_other3 - mean_treatment3
+    list[[i]] <- pred_diff
+    i <- i + 1
+}
+
+total_sig = sum(list > obs_diff)
+
+text <- print(paste(TE_TYPE, TREATMENT, " vs ", CONTROL, df_name, average2, average1, average3, mean_treatment2, mean_treatment1, mean_treatment3, mean_other2, mean_other1, mean_other3, obs_diff_three, obs_diff_five, obs_diff, sig_3, sig_5, total_sig))
+cat(text, "\n", file = "Gene2TEvsBUSCO.txt", append = TRUE)
+
+}}}
+
+
+```
+```R
+datasets <- list(
+  OGB2019 = OGB2019,
+  p112020 = p112020,
+  OGB2021 = OGB2021,
+  DRCT72020 = DRCT72020,
+  DRCT72021 = DRCT72021,
+  scott2020 = scott2020
+)
+
+TETYPES <- c("Any TE", "Copia", "DNA", "Gypsy", "LINE", "LTR", "Mariner", "Pogo", "Tad") 
+
+CSEPTYPE <- c("1","2","3")
+
+for (TE_TYPE in TETYPES) {
+  for (CSEP_TYPE in CSEPTYPE) {
+    if (CSEP_TYPE == "1") {
+      TREATMENT <- "Short CSEP"
+      CONTROL <- "Non CSEP"
+    } else if (CSEP_TYPE == "2") {
+      TREATMENT <- "Long CSEP"
+      CONTROL <- "Non CSEP"
+    } else if (CSEP_TYPE == "3") {
+      TREATMENT <- "Long CSEP"
+      CONTROL <- "Short CSEP"
+    }
+    
+    for (dataset_name in names(datasets)) {
+      data <- datasets[[dataset_name]]
+      
+      df_all <- data %>%
+        filter(te_group == TE_TYPE)
+      
+      df_all$BUSCO <- "Non"
+      df_all$BUSCO[df_all$BUSCO_blast_match == 1] <- "BUSCO"
+      
+      df_all$three_prime_lgth[df_all$three_prime_lgth == 'Nested TE'] <- 0
+      df_all$five_prime_lgth[df_all$five_prime_lgth == 'Nested TE'] <- 0
+      
+      df_all$three_prime_lgth[df_all$three_prime_lgth == 'gene'] <- NA
+      df_all$five_prime_lgth[df_all$five_prime_lgth == 'gene'] <- NA
+      
+      df_all$three_prime_lgth[df_all$three_prime_lgth == 'end'] <- NA
+      df_all$five_prime_lgth[df_all$five_prime_lgth == 'end'] <- NA
+      
+      df_all$three_prime_lgth[df_all$three_prime_lgth == 'None'] <- NA
+      df_all$five_prime_lgth[df_all$five_prime_lgth == 'None'] <- NA
+      
+      df_all$three_prime_lgth <- as.numeric(df_all$three_prime_lgth)
+      df_all$five_prime_lgth <- as.numeric(df_all$five_prime_lgth)
+      
+      # 5-prime 
+      df_filtered3 <- df_all %>% filter(!is.na(five_prime_lgth) & five_prime_lgth != 99999)
+      
+      if (CONTROL == "Non CSEP") {
+        df_filtered <- df_filtered3 %>%
+          filter((sec_type == CONTROL) | sec_type == TREATMENT)
+      } else {
+        df_filtered <- df_filtered3 %>%
+          filter(sec_type == CONTROL | sec_type == TREATMENT)
+      }
+      
+      mean_other1 <- mean(subset(df_filtered$five_prime_lgth, df_filtered$sec_type == CONTROL))
+      subset_df <- subset(df_filtered, sec_type == TREATMENT)
+      
+      num_treatment <- nrow(subset_df)
+      mean_treatment1 <- mean(subset_df$five_prime_lgth, na.rm = TRUE)
+      obs_diff_five <- mean_other1 - mean_treatment1
+      average1 <- mean(df_filtered$five_prime_lgth)
+      
+      list <- vector()
+      i <- 1
+      while(i < 10000) {
+        test_group1 <- df_filtered[sample(nrow(df_filtered), num_treatment), ]
+        test_group1$treatment <- rep("treatment",nrow(test_group1))
+        
+        test_group1_names <- test_group1$name
+        control_group <- df_filtered[!df_filtered$name %in% test_group1_names, ]
+        control_group$treatment <- rep("control",nrow(control_group))
+        
+        pred_df <- rbind(test_group1, control_group)
+        pred_df$treatment <- as.factor(pred_df$treatment)
+        
+        mean_other <- mean(subset(pred_df$five_prime_lgth, pred_df$treatment == "control"))
+        mean_treatment <- mean(subset(pred_df$five_prime_lgth, pred_df$treatment == "treatment"))
+        pred_diff <- mean_other - mean_treatment
+        list[[i]] <- pred_diff
+        i <- i + 1
+      }
+      
+      sig_5 = sum(list > obs_diff_five)
+      
+      # 3-prime 
+      df_filtered3 <- df_all %>% filter(!is.na(three_prime_lgth) & three_prime_lgth != 99999)
+      
+      if (CONTROL == "Non CSEP") {
+        df_filtered <- df_filtered3 %>%
+          filter((sec_type == CONTROL) | sec_type == TREATMENT)
+      } else {
+        df_filtered <- df_filtered3 %>%
+          filter(sec_type == CONTROL | sec_type == TREATMENT)
+      }
+      
+      mean_other2 <- mean(subset(df_filtered$three_prime_lgth, df_filtered$sec_type == CONTROL))
+      subset_df <- subset(df_filtered, sec_type == TREATMENT)
+      
+      num_treatment <- nrow(subset_df)
+      mean_treatment2 <- mean(subset_df$three_prime_lgth, na.rm = TRUE)
+      obs_diff_three <- mean_other2 - mean_treatment2
+      average2 <- mean(df_filtered$three_prime_lgth)
+      
+      list <- vector()
+      i <- 1
+      while(i < 10000) {
+        test_group1 <- df_filtered[sample(nrow(df_filtered), num_treatment), ]
+        test_group1$treatment <- rep("treatment",nrow(test_group1))
+        
+        test_group1_names <- test_group1$name
+        control_group <- df_filtered[!df_filtered$name %in% test_group1_names, ]
+        control_group$treatment <- rep("control",nrow(control_group))
+        
+        pred_df <- rbind(test_group1, control_group)
+        pred_df$treatment <- as.factor(pred_df$treatment)
+        
+        mean_other <- mean(subset(pred_df$three_prime_lgth, pred_df$treatment == "control"))
+        mean_treatment <- mean(subset(pred_df$three_prime_lgth, pred_df$treatment == "treatment"))
+        pred_diff <- mean_other - mean_treatment
+        list[[i]] <- pred_diff
+        i <- i + 1
+      }
+      
+      sig_3 = sum(list > obs_diff_three)
+      
+      # Total
+      
+      df_filtered2 <- df_all %>% filter(!is.na(five_prime_lgth) & five_prime_lgth != 99999)
+      df_filtered3 <- df_filtered2 %>% filter(!is.na(three_prime_lgth) & three_prime_lgth != 99999)
+      if (CONTROL == "Non CSEP") {
+        df_filtered <- df_filtered3 %>%
+          filter((sec_type == CONTROL) | sec_type == TREATMENT)
+      } else {
+        df_filtered <- df_filtered3 %>%
+          filter(sec_type == CONTROL | sec_type == TREATMENT)
+      }
+      
+      df_filtered$total_IG = df_filtered$five_prime_lgth + df_filtered$three_prime_lgth
+      
+      mean_other3 <- mean(subset(df_filtered$total_IG, df_filtered$sec_type == CONTROL))
+      subset_df <- subset(df_filtered, sec_type == TREATMENT)
+      
+      num_treatment <- nrow(subset_df)
+      mean_treatment3 <- mean(subset_df$total_IG, na.rm = TRUE)
+      obs_diff <- mean_other3 - mean_treatment3
+      average3 <- mean(df_filtered$total_IG)
+      
+      list <- vector()
+      i <- 1
+      while(i < 10000) {
+        test_group1 <- df_filtered[sample(nrow(df_filtered), num_treatment), ]
+        test_group1$treatment <- rep("treatment",nrow(test_group1))
+        
+        test_group1_names <- test_group1$name
+        control_group <- df_filtered[!df_filtered$name %in% test_group1_names, ]
+        control_group$treatment <- rep("control",nrow(control_group))
+        
+        pred_df <- rbind(test_group1, control_group)
+        pred_df$treatment <- as.factor(pred_df$treatment)
+        
+        mean_other <- mean(subset(pred_df$total_IG, pred_df$treatment == "control"))
+        mean_treatment <- mean(subset(pred_df$total_IG, pred_df$treatment == "treatment"))
+        pred_diff <- mean_other - mean_treatment
+        list[[i]] <- pred_diff
+        i <- i + 1
+      }
+      
+      total_sig = sum(list > obs_diff)
+      
+      text <- print(paste(TE_TYPE, TREATMENT, " vs ", CONTROL, dataset_name, average2, average1, average3, mean_treatment2, mean_treatment1, mean_treatment3, mean_other2, mean_other1, mean_other3, obs_diff_three, obs_diff_five, obs_diff, sig_3, sig_5, total_sig))
+      cat(text, "\n", file = "Gene2TEvsBUSCO2.txt", append = TRUE)
+      
+    }}}
+
+```
