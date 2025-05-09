@@ -1,4 +1,4 @@
-'''bash
+```bash
 Orthogroups=formatted/OrthoFinder/Results_Jul20_2/Orthogroups/Orthogroups.tsv
 
 cat $Orthogroups | grep -e 'AP19' | grep -v -e 'AP20' | grep -v -e 'AP21'| wc -l
@@ -65,7 +65,7 @@ cat $Orthogroups | grep -v -e 'RA20' | grep -v -e 'ST20' | grep -e 'ST21' | grep
 cat $Orthogroups | grep -v -e 'RA20' | grep -e 'ST20' | grep -v -e 'ST21' | grep -v -e 'AP19' | grep -v -e 'AP20' | grep -v -e 'AP21'| wc -l
 cat $Orthogroups | grep -e 'RA20' | grep -v -e 'ST20' | grep -v -e 'ST21' | grep -v -e 'AP19' | grep -v -e 'AP20' | grep -v -e 'AP21'| wc -l
 
-'''
+```
 
 '''R
 
