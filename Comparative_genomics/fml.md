@@ -190,3 +190,41 @@ jpeg(file="venn8.jpeg", width=500, height=500)
 plot(plot8)
 dev.off()
 ```
+```bash
+for file in $(ls /home/theaven/projects/niab/theaven/gene_pred/P_*/*/predector_singularity3/results/final_genes_appended_renamed.pep/P*-ranked.tsv); do
+file2=$(dirname $file)/final_genes_appended_renamed.pep-ranked.tsv
+ID=missing_$(echo $file | rev | cut -d '/' -f1 | rev)
+head -n 1 $file > $ID
+awk 'FNR==NR {exclude[$1]; next} !($1 in exclude)' $file $file2 >> $ID
+done
+
+echo Species+Assembly Predicted_genes pfamID pfam_virulence PHIbase_effector effector_ortholog canonical_SP noncanonical_SP SSCP CSEP Secreted_effectorP3 Secreted_CAZY newSSCP newCSEP newSecreted_effectorP3 csep_val all csep_val phiboref > missingEffectorPredictionReport.txt
+for Annotations in $(ls ~/projects/niab/theaven/gene_pred/P_*/*/codingquarry/rep_modeling/final/*annotations3.tsv); do
+ ID=$(basename $Annotations | sed 's@_1_abinitio_annotations3.tsv@@g')
+ Predictedgenes=$(cut -f1 $Annotations| grep -v 'name' | wc -l)
+ pfamID=$(awk '$18 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ pfamvirulence=$(awk '$20 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ PHIbaseeffector=$(awk '$15 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ effectorortholog=$(awk '$11 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ canonicalsp=$(awk '$31 == "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ noncanonical=$(awk '$31 != "1" && $5 != 'signal' && $2 > 0.6 {print $1}' $Annotations| grep -v 'name' | wc -l)
+ sscp=$(awk '$31 == "1" && $36 <= 300 && $39 > 3 {print $1}' $Annotations| grep -v 'name' | wc -l)
+ csep=$(awk '$31 == "1" && $7 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ secretedeffector=$(awk '$31 == "1" && $27 == "." && $7 == "0" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ secretedcazy=$(awk '$31 == "1" && $21 != "." {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newsscp=$(awk '$31 == "1" && $36 <= 300 && $39 > 3 && $11 == "." && $15 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newcsep=$(awk '$31 == "1" && $7 == "0" && $11 == "." && $15 != "1" {print $1}' $Annotations| grep -v 'name' | wc -l)
+ newsecretedeffector=$(awk '$31 == "1" && $27 == "." && $11 == "." && $15 != "1" && $7 == "0" {print $1}'  $Annotations| grep -v 'name' | wc -l)
+ all=$(awk '$15 == "1" || $11 != "." || ($31 == "1" && $27 == "." && $7 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ csep_val=$(awk '$11 != "." || ($31 == "1" && $27 == "." && $7 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ PHIbaseororthologeffector=$(awk '$15 == "1" || $11 != "." || ($31 == "1" && $27 == "." && $7 == "0") {print $1}' $Annotations| grep -v 'name' | wc -l)
+ echo $ID $Predictedgenes $pfamID $pfamvirulence $PHIbaseeffector $effectorortholog $canonicalsp $noncanonical $sscp $csep $secretedeffector $secretedcazy $newsscp $newcsep $newsecretedeffector $csep_val $all >> missingEffectorPredictionReport.txt
+done
+
+for file in $(ls ~/projects/niab/theaven/gene_pred/P_*/*/codingquarry/rep_modeling/final/*annotations3.tsv); do
+head -n 1 $file > duplicated_$(basename $file)
+file2=$(ls $(dirname $file)/*_duplicated_genes.txt)
+sed 's/$/.t1/' $file2 | grep -Ff - $file >> duplicated_$(basename $file)
+done
+~/projects/niab/theaven/gene_pred/P*/*/codingquarry/rep_modeling/final/*_duplicated_genes.txt
+```
