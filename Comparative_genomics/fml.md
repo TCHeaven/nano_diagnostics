@@ -67,7 +67,7 @@ cat $Orthogroups | grep -e 'RA20' | grep -v -e 'ST20' | grep -v -e 'ST21' | grep
 
 ```
 
-'''R
+```R
 
 setwd("E:/R")
 install.packages("devtools")
@@ -189,4 +189,4 @@ dev.off()
 jpeg(file="venn8.jpeg", width=500, height=500)
 plot(plot8)
 dev.off()
-'''
+```
